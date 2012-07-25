@@ -13,6 +13,7 @@
 		FA506ECF15C08D5F000F3FFC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA506ECD15C08D5F000F3FFC /* InfoPlist.strings */; };
 		FA506ED115C08D5F000F3FFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506ED015C08D5F000F3FFC /* main.m */; };
 		FA506ED515C08D5F000F3FFC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506ED415C08D5F000F3FFC /* AppDelegate.m */; };
+		FA506EDD15C08D8E000F3FFC /* GoogleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EDC15C08D8E000F3FFC /* GoogleImage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		FA506ED215C08D5F000F3FFC /* ImageSearcher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageSearcher-Prefix.pch"; sourceTree = "<group>"; };
 		FA506ED315C08D5F000F3FFC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA506ED415C08D5F000F3FFC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FA506EDB15C08D8E000F3FFC /* GoogleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleImage.h; sourceTree = "<group>"; };
+		FA506EDC15C08D8E000F3FFC /* GoogleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleImage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,8 @@
 			children = (
 				FA506ED315C08D5F000F3FFC /* AppDelegate.h */,
 				FA506ED415C08D5F000F3FFC /* AppDelegate.m */,
+				FA506EDB15C08D8E000F3FFC /* GoogleImage.h */,
+				FA506EDC15C08D8E000F3FFC /* GoogleImage.m */,
 				FA506ECB15C08D5F000F3FFC /* Supporting Files */,
 			);
 			path = ImageSearcher;
@@ -154,6 +159,7 @@
 			files = (
 				FA506ED115C08D5F000F3FFC /* main.m in Sources */,
 				FA506ED515C08D5F000F3FFC /* AppDelegate.m in Sources */,
+				FA506EDD15C08D8E000F3FFC /* GoogleImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
