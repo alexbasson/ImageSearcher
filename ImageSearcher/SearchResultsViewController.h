@@ -1,5 +1,5 @@
 //
-//  SearchQueryViewController.h
+//  SearchResultsViewController.h
 //  ImageSearcher
 //
 //  Created by Alex Basson on 7/25/12.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchQueryViewController : UIViewController
-
-@property (strong, nonatomic) IBOutlet UITextField *query;
+@interface SearchResultsViewController : UIViewController
 
 @end

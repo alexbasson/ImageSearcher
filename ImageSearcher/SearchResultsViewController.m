@@ -1,20 +1,18 @@
 //
-//  SearchQueryViewController.m
+//  SearchResultsViewController.m
 //  ImageSearcher
 //
 //  Created by Alex Basson on 7/25/12.
 //  Copyright (c) 2012 Poly Prep C.D.S. All rights reserved.
 //
 
-#import "SearchQueryViewController.h"
+#import "SearchResultsViewController.h"
 
-@interface SearchQueryViewController ()
+@interface SearchResultsViewController ()
 
 @end
 
-@implementation SearchQueryViewController
-
-@synthesize query = _query;
+@implementation SearchResultsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,10 +39,6 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (IBAction)findImagesPressed:(id)sender {
-    NSString *queryText = self.query.text;
 }
 
 @end

@@ -16,6 +16,8 @@
 		FA506EDD15C08D8E000F3FFC /* GoogleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EDC15C08D8E000F3FFC /* GoogleImage.m */; };
 		FA506EE115C08E3F000F3FFC /* SearchQueryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EDF15C08E3F000F3FFC /* SearchQueryViewController.m */; };
 		FA506EE215C08E3F000F3FFC /* SearchQueryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */; };
+		FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */; };
+		FA506EE715C08FEF000F3FFC /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,9 @@
 		FA506EDE15C08E3F000F3FFC /* SearchQueryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchQueryViewController.h; sourceTree = "<group>"; };
 		FA506EDF15C08E3F000F3FFC /* SearchQueryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchQueryViewController.m; sourceTree = "<group>"; };
 		FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchQueryViewController.xib; sourceTree = "<group>"; };
+		FA506EE315C08FEF000F3FFC /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
+		FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
+		FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +92,9 @@
 				FA506EDE15C08E3F000F3FFC /* SearchQueryViewController.h */,
 				FA506EDF15C08E3F000F3FFC /* SearchQueryViewController.m */,
 				FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */,
+				FA506EE315C08FEF000F3FFC /* SearchResultsViewController.h */,
+				FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */,
+				FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */,
 				FA506ECB15C08D5F000F3FFC /* Supporting Files */,
 			);
 			path = ImageSearcher;
@@ -156,6 +164,7 @@
 			files = (
 				FA506ECF15C08D5F000F3FFC /* InfoPlist.strings in Resources */,
 				FA506EE215C08E3F000F3FFC /* SearchQueryViewController.xib in Resources */,
+				FA506EE715C08FEF000F3FFC /* SearchResultsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +179,7 @@
 				FA506ED515C08D5F000F3FFC /* AppDelegate.m in Sources */,
 				FA506EDD15C08D8E000F3FFC /* GoogleImage.m in Sources */,
 				FA506EE115C08E3F000F3FFC /* SearchQueryViewController.m in Sources */,
+				FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
