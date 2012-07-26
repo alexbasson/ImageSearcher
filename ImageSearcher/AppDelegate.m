@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SearchQueryViewController.h"
 
 @implementation AppDelegate
 
@@ -22,7 +23,16 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    
+    SearchQueryViewController *searchQueryViewController = [[SearchQueryViewController alloc] init];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:searchQueryViewController];
+    [searchQueryViewController release];
+    
+    self.window.rootViewController = navController;
+    [navController release];
+    
+    //self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }

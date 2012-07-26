@@ -10,4 +10,7 @@
 
 @interface SearchResultsViewController : UIViewController
 
+@property (strong, nonatomic) NSString *queryString;
+@property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
+
 @end

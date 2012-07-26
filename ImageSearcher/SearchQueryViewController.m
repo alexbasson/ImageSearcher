@@ -7,6 +7,7 @@
 //
 
 #import "SearchQueryViewController.h"
+#import "SearchResultsViewController.h"
 
 @interface SearchQueryViewController ()
 
@@ -20,7 +21,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.navigationItem.title = @"Google Image Search";
     }
     return self;
 }
@@ -44,7 +45,9 @@
 }
 
 - (IBAction)findImagesPressed:(id)sender {
-    NSString *queryText = self.query.text;
+    SearchResultsViewController *searchResultsViewController = [[[SearchResultsViewController alloc] init] autorelease];
+    searchResultsViewController.queryString = self.query.text;
+    [self.navigationController pushViewController:searchResultsViewController animated:YES];
 }
 
 @end

@@ -14,6 +14,9 @@
 
 @implementation SearchResultsViewController
 
+@synthesize queryString = _queryString;
+@synthesize queryStringLabel = _queryStringLabel;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,6 +30,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.queryStringLabel.text = self.queryString;
 }
 
 - (void)viewDidUnload
