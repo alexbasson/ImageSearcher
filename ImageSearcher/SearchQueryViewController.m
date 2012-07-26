@@ -44,10 +44,22 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)findImagesPressed:(id)sender {
+- (IBAction)findImagesPressed:(id)sender
+{
     SearchResultsViewController *searchResultsViewController = [[[SearchResultsViewController alloc] init] autorelease];
     searchResultsViewController.queryString = self.query.text;
     [self.navigationController pushViewController:searchResultsViewController animated:YES];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (IBAction)backgroundTapped:(id)sender
+{
+    [self.view endEditing:YES];
 }
 
 @end
