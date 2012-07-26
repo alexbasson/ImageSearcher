@@ -17,6 +17,15 @@
 @synthesize queryString = _queryString;
 @synthesize queryStringLabel = _queryStringLabel;
 
+- (id)initWithQuery:(NSString *)query
+{
+    self = [super init];
+    if (self) {
+        self.queryString = query;
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,8 +45,17 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [self.queryStringLabel release];
+    self.queryStringLabel = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)dealloc
+{
+    [self.queryString release];
+    [self.queryStringLabel release];
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

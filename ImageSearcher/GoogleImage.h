@@ -13,7 +13,7 @@
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *contentNoFormatting;
 @property (strong, nonatomic) NSNumber *height;
-@property (strong, nonatomic) NSStream *html;
+@property (strong, nonatomic) NSString *html;
 @property (strong, nonatomic) NSURL *originalContextURL;
 @property (strong, nonatomic) NSNumber *tbHeight;
 @property (strong, nonatomic) NSURL *tbUrl;

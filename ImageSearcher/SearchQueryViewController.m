@@ -35,8 +35,16 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [self.query release];
+    self.query = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)dealloc
+{
+    [self.query release];
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -46,8 +54,7 @@
 
 - (IBAction)findImagesPressed:(id)sender
 {
-    SearchResultsViewController *searchResultsViewController = [[[SearchResultsViewController alloc] init] autorelease];
-    searchResultsViewController.queryString = self.query.text;
+    SearchResultsViewController *searchResultsViewController = [[[SearchResultsViewController alloc] initWithQuery:self.query.text] autorelease];
     [self.navigationController pushViewController:searchResultsViewController animated:YES];
 }
 
