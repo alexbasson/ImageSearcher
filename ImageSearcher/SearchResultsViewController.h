@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) NSString *queryString;
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
-@property (strong, nonatomic) NSMutableArray *searchResults;
+@property (strong, nonatomic) NSMutableArray *googleImages;
 
 - (id)initWithQuery:(NSString *)query;
 

@@ -62,7 +62,14 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Google Image\n\tTitle: %@\n\tContent: %@\n\tURL: %@\n\tHeight: %@\n\tWidth: %@\n\ttbURL: %@\n\ttbHeight: %@\n\ttbWidth: %@\n\n",
+            self.title, self.content, self.url, self.height, self.width, self.tbUrl, self.tbHeight, self.tbWidth];
+            
+}
 
+/*
 #pragma mark -
 #pragma mark Setters
 
@@ -182,7 +189,7 @@
         return;
     }
 }
-
+*/
 
 
 

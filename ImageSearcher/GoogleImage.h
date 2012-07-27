@@ -12,18 +12,18 @@
 
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *contentNoFormatting;
-@property (strong, nonatomic) NSNumber *height;
+@property (strong, nonatomic) NSString *height;
 @property (strong, nonatomic) NSString *html;
-@property (strong, nonatomic) NSURL *originalContextURL;
-@property (strong, nonatomic) NSNumber *tbHeight;
-@property (strong, nonatomic) NSURL *tbUrl;
-@property (strong, nonatomic) NSNumber *tbWidth;
+@property (strong, nonatomic) NSString *originalContextURL;
+@property (strong, nonatomic) NSString *tbHeight;
+@property (strong, nonatomic) NSString *tbUrl;
+@property (strong, nonatomic) NSString *tbWidth;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *titleNoFormatting;
-@property (strong, nonatomic) NSURL *unescapedUrl;
-@property (strong, nonatomic) NSURL *url;
-@property (strong, nonatomic) NSURL *visibleUrl;
-@property (strong, nonatomic) NSNumber *width;
+@property (strong, nonatomic) NSString *unescapedUrl;
+@property (strong, nonatomic) NSString *url;
+@property (strong, nonatomic) NSString *visibleUrl;
+@property (strong, nonatomic) NSString *width;
 
 - (id)initWithContent:(NSString *)content
     contentNoFormatting:(NSString *)contentNoFormatting

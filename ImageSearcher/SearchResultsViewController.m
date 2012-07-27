@@ -6,7 +6,11 @@
 //  Copyright (c) 2012 Poly Prep C.D.S. All rights reserved.
 //
 #define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-#define kGoogleImageSearchURL @"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&rsz=8&"
+#define kGoogleImageSearchURL @"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&"
+
+// The total number of images returned will be the product of kResultSize and kNumberOfQueries
+#define kResultSize 8
+#define kNumberOfQueries 3
 
 #import "SearchResultsViewController.h"
 #import "GoogleImage.h"
@@ -34,7 +38,7 @@
 
 @synthesize queryString = _queryString;
 @synthesize queryStringLabel = _queryStringLabel;
-@synthesize searchResults = _searchResults;
+@synthesize googleImages = _googleImages;
 
 #pragma mark -
 #pragma mark Initializers
@@ -63,20 +67,34 @@
 - (void)fetchSearchResults
 {
     dispatch_async(kBgQueue, ^{
-        self.searchResults = [NSMutableArray arrayWithCapacity:24];
-        for (NSUInteger i = 0; i < 3; i++) {
-            NSString *searchQuery = [kGoogleImageSearchURL stringByAppendingFormat:@"start=%i&q=%@", i*8, self.queryString];
-            NSLog(@"searchQuery: %@", searchQuery);
-            NSDictionary *jsonData = [NSDictionary dictionaryWithContentsOfJSONURLString:[kGoogleImageSearchURL stringByAppendingFormat:@"start=%i&q=%@", i, self.queryString]];
+        self.googleImages = [NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries];
+        NSMutableArray *searchResults = [NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries];
+        for (NSUInteger i = 0; i < kNumberOfQueries; i++) {
+            NSDictionary *jsonData = [NSDictionary dictionaryWithContentsOfJSONURLString:
+                                      [kGoogleImageSearchURL stringByAppendingFormat:@"rsz=%i&start=%i&q=%@", kResultSize, i*kResultSize, self.queryString]];
             NSDictionary *results = [jsonData objectForKey:@"responseData"];
-            [self.searchResults addObjectsFromArray:[results objectForKey:@"results"]];
+            [searchResults addObjectsFromArray:[results objectForKey:@"results"]];
         }
-        NSLog(@"Number of images: %d", [self.searchResults count]);
-        for (NSDictionary *result in self.searchResults) {
-            NSLog(@"title: %@", [result objectForKey:@"title"]);
-            NSLog(@"url: %@", [result objectForKey:@"url"]);
-            NSLog(@"========");
+        for (NSDictionary *result in searchResults) {
+            GoogleImage *image = [[GoogleImage alloc] initWithContent:[result objectForKey:@"content"]
+                                                  contentNoFormatting:[result objectForKey:@"contentNoFormatting"]
+                                                               height:[result objectForKey:@"height"]
+                                                                 html:[result objectForKey:@"html"]
+                                                 origininalContextURL:[result objectForKey:@"originalContextUrl"]
+                                                             tbHeight:[result objectForKey:@"tbHeight"]
+                                                                tbURL:[result objectForKey:@"tbUrl"]
+                                                              tbWidth:[result objectForKey:@"tbWidth"]
+                                                                title:[result objectForKey:@"title"]
+                                                    titleNoFormatting:[result objectForKey:@"titleNoFormatting"]
+                                                         unescapedUrl:[result objectForKey:@"unescapedUrl"]
+                                                                  url:[result objectForKey:@"url"]
+                                                           visibleUrl:[result objectForKey:@"visibleUrl"]
+                                                                width:[result objectForKey:@"width"]];
+            [self.googleImages addObject:image];
+            NSLog(@"%@", image);
+            [image release];
         }
+        NSLog(@"Number of images: %d", [self.googleImages count]); // This had better equal kResultSize * kNumberOfQueries
     });
 }
 
@@ -102,7 +120,7 @@
 {
     [self.queryString release];
     [self.queryStringLabel release];
-    [self.searchResults release];
+    [self.googleImages release];
     [super dealloc];
 }
 
