@@ -26,6 +26,44 @@
 @synthesize width = _width;
 
 #pragma mark -
+
+- (id)initWithContent:(NSString *)content
+    contentNoFormatting:(NSString *)contentNoFormatting
+                 height:(NSString *)height
+                   html:(NSString *)html
+   origininalContextURL:(NSString *)originalContextURL
+               tbHeight:(NSString *)tbHeight
+                  tbURL:(NSString *)tbUrl
+                tbWidth:(NSString *)tbWidth
+                  title:(NSString *)title
+      titleNoFormatting:(NSString *)titleNoFormatting
+           unescapedUrl:(NSString *)unescapedUrl
+                    url:(NSString *)url
+             visibleUrl:(NSString *)visibleUrl
+                  width:(NSString *)width
+{
+    self = [super init];
+    if (self) {
+        self.content = content;
+        self.contentNoFormatting = contentNoFormatting;
+        self.height = height;
+        self.html = html;
+        self.originalContextURL = originalContextURL;
+        self.tbHeight = tbHeight;
+        self.tbUrl = tbUrl;
+        self.tbWidth = tbWidth;
+        self.title = title;
+        self.titleNoFormatting = titleNoFormatting;
+        self.unescapedUrl = unescapedUrl;
+        self.url = url;
+        self.visibleUrl = visibleUrl;
+        self.width = width;
+    }
+    return self;
+}
+
+
+#pragma mark -
 #pragma mark Setters
 
 - (void)setHeight:(id)height
