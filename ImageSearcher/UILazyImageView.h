@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UILazyImageView : UIImageView
+@interface UILazyImageView : UIImageView {
+    NSMutableData *receivedData;
+}
+
+- (id)initWithURL:(NSURL *)url;
+- (void)loadWithURL:(NSURL *)url;
 
 @end
