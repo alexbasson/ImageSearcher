@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA04A89115C5A0300017A709 /* UILazyImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA04A89015C5A0300017A709 /* UILazyImageView.m */; };
 		FA506EC515C08D5F000F3FFC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA506EC415C08D5F000F3FFC /* UIKit.framework */; };
 		FA506EC715C08D5F000F3FFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA506EC615C08D5F000F3FFC /* Foundation.framework */; };
 		FA506EC915C08D5F000F3FFC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA506EC815C08D5F000F3FFC /* CoreGraphics.framework */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA04A88F15C5A0300017A709 /* UILazyImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILazyImageView.h; sourceTree = "<group>"; };
+		FA04A89015C5A0300017A709 /* UILazyImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILazyImageView.m; sourceTree = "<group>"; };
 		FA506EC015C08D5F000F3FFC /* ImageSearcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageSearcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA506EC415C08D5F000F3FFC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FA506EC615C08D5F000F3FFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -89,6 +92,8 @@
 				FA506ED415C08D5F000F3FFC /* AppDelegate.m */,
 				FA506EDB15C08D8E000F3FFC /* GoogleImage.h */,
 				FA506EDC15C08D8E000F3FFC /* GoogleImage.m */,
+				FA04A88F15C5A0300017A709 /* UILazyImageView.h */,
+				FA04A89015C5A0300017A709 /* UILazyImageView.m */,
 				FA506EDE15C08E3F000F3FFC /* SearchQueryViewController.h */,
 				FA506EDF15C08E3F000F3FFC /* SearchQueryViewController.m */,
 				FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */,
@@ -180,6 +185,7 @@
 				FA506EDD15C08D8E000F3FFC /* GoogleImage.m in Sources */,
 				FA506EE115C08E3F000F3FFC /* SearchQueryViewController.m in Sources */,
 				FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */,
+				FA04A89115C5A0300017A709 /* UILazyImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +287,7 @@
 				FA506EDA15C08D5F000F3FFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSString *visibleUrl;
 @property (strong, nonatomic) NSString *width;
 
+
 - (id)initWithContent:(NSString *)content
     contentNoFormatting:(NSString *)contentNoFormatting
                  height:(NSString *)height
