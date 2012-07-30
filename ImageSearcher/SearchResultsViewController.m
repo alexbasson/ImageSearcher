@@ -48,11 +48,11 @@
 
 - (void)dealloc
 {
-    [self.queryString release];
-    [self.queryStringLabel release];
-    [self.googleImages release];
-    [self.scrollView release];
-    [self.containerView release];
+    [_queryString release];
+    [_queryStringLabel release];
+    [_googleImages release];
+    [_scrollView release];
+    [_containerView release];
     
     [super dealloc];
 }
@@ -84,11 +84,11 @@
 - (void)fetchSearchResults
 {
     dispatch_async(kBgQueue, ^{
-        self.googleImages = [NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries];
+        [self setGoogleImages:[NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries]];
         NSMutableArray *searchResults = [NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries];
         for (NSUInteger i = 0; i < kNumberOfQueries; i++) {
             NSDictionary *jsonData = [NSDictionary dictionaryWithContentsOfJSONURLString:
-                                      [kGoogleImageSearchURL stringByAppendingFormat:@"rsz=%i&start=%i&q=%@", kResultSize, i*kResultSize, self.queryString]];
+                                      [kGoogleImageSearchURL stringByAppendingFormat:@"rsz=%i&start=%i&q=%@", kResultSize, i*kResultSize, [self queryString]]];
             NSDictionary *results = [jsonData objectForKey:@"responseData"];
             [searchResults addObjectsFromArray:[results objectForKey:@"results"]];
         }
@@ -107,10 +107,10 @@
                                                                   url:[result objectForKey:@"url"]
                                                            visibleUrl:[result objectForKey:@"visibleUrl"]
                                                                 width:[result objectForKey:@"width"]];
-            [self.googleImages addObject:image];
+            [[self googleImages] addObject:image];
             [image release];
         }
-        NSLog(@"Number of images: %d", [self.googleImages count]); // This had better equal kResultSize * kNumberOfQueries
+        NSLog(@"Number of images: %d", [[self googleImages] count]); // This had better equal kResultSize * kNumberOfQueries
         dispatch_async(kMainQueue, ^{
             [self displayImages];
         });
@@ -124,18 +124,18 @@
     CGFloat y = 0.0f;
         
     // Remove any subviews that aren't onscreen
-    for (UIView *imageView in self.containerView.subviews) {
-        if (![self imageFrameIsOnscreen:imageView.frame.origin]) {
+    for (UIView *imageView in [[self containerView] subviews]) {
+        if (![self imageFrameIsOnscreen:[imageView frame].origin]) {
             NSLog(@"Unloading image.");
             [imageView removeFromSuperview];
         }
     }
     
-    for (GoogleImage *image in self.googleImages) {
-        if ([self imageFrameIsOnscreen:CGPointMake(x, y)] && !([self imageAtArrayIndexIsAlreadyLoaded:[self.googleImages indexOfObject:image]])) {
-            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:image.unescapedUrl]];
-            imageView.frame = CGRectMake(x, y, 200.0f, 200.0f);
-            [self.containerView addSubview:imageView];
+    for (GoogleImage *image in [self googleImages]) {
+        if ([self imageFrameIsOnscreen:CGPointMake(x, y)] && !([self imageAtArrayIndexIsAlreadyLoaded:[[self googleImages] indexOfObject:image]])) {
+            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[image unescapedUrl]]];
+            [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
+            [[self containerView] addSubview:imageView];
             [imageView release];            
         }
         if (x >= 600.0f) {
@@ -145,16 +145,15 @@
             x += 200.0f;
         }
     }
-    //NSLog(@"Images loaded: %i", [self.containerView.subviews count]);
 }
 
 - (BOOL)imageFrameIsOnscreen:(CGPoint)frameOrigin
 {
     // Any point within xMin and xMax, yMin and yMax, is onscreen
-    CGFloat xMin = self.scrollView.bounds.origin.x;
-    CGFloat yMin = self.scrollView.bounds.origin.y;
-    CGFloat xMax = xMin + self.scrollView.bounds.size.width;
-    CGFloat yMax = yMin + self.scrollView.bounds.size.height;
+    CGFloat xMin = [[self scrollView] bounds].origin.x;
+    CGFloat yMin = [[self scrollView] bounds].origin.y;
+    CGFloat xMax = xMin + [[self scrollView] bounds].size.width;
+    CGFloat yMax = yMin + [[self scrollView] bounds].size.height;
     
     return (frameOrigin.x >= xMin - 200.0f && frameOrigin.x <= xMax && frameOrigin.y >= yMin - 200.0f && frameOrigin.y <= yMax);
 }
@@ -162,7 +161,7 @@
 - (BOOL)imageAtArrayIndexIsAlreadyLoaded:(NSUInteger)arrayIndex
 {
     BOOL isOnscreen = NO;
-    for (UIView *imageView in self.containerView.subviews) {
+    for (UIView *imageView in [[self containerView] subviews]) {
         NSUInteger x = (NSUInteger)imageView.frame.origin.x;
         NSUInteger y = (NSUInteger)imageView.frame.origin.y;
         if (arrayIndex == (y / 200) * 4 + (x / 200)) {
@@ -174,8 +173,8 @@
 
 - (void)centerScrollViewContents
 {
-    CGSize boundSize = self.scrollView.bounds.size;
-    CGRect contentsFrame = self.containerView.frame;
+    CGSize boundSize = [[self scrollView] bounds].size;
+    CGRect contentsFrame = [[self containerView] frame];
     
     if (contentsFrame.size.width < boundSize.width) {
         contentsFrame.origin.x = (boundSize.width - contentsFrame.size.width) / 2.0f;
@@ -189,7 +188,7 @@
         contentsFrame.origin.y = 0.0f;
     }
     
-    self.containerView.frame = contentsFrame;
+    [[self containerView] setFrame:contentsFrame];
 }
 
 
@@ -198,16 +197,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.queryStringLabel.text = self.queryString;
+    [[self queryStringLabel] setText:[self queryString]];
     [self fetchSearchResults];
     
     // Set up container view to hold images
     CGSize containerSize = CGSizeMake(800.0f, 1200.0f);
-    self.containerView = [[UIView alloc] initWithFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=containerSize}];
-    [self.scrollView addSubview:self.containerView];
-    [self.containerView release];
+    [self setContainerView:[[UIView alloc] initWithFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=containerSize}]];
+    [[self scrollView] addSubview:[self containerView]];
+    [[self containerView] release];
             
-    self.scrollView.contentSize = containerSize;
+    [[self scrollView] setContentSize:containerSize];
 }
 
 
@@ -219,13 +218,11 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [self.queryStringLabel release];
-    self.queryStringLabel = nil;
+    [[self queryStringLabel] release];
+    [self setQueryStringLabel:nil];
     
-    [self.scrollView release];
-    self.scrollView = nil;
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [[self scrollView] release];
+    [self setScrollView:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

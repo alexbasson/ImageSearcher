@@ -20,7 +20,7 @@
 - (void)dealloc
 {
     [receivedData release];
-    [self.imageFileURL release];
+    [_imageFileURL release];
     
     [super dealloc];
 }
@@ -31,16 +31,16 @@
     
     if (self) {
         __autoreleasing NSError *error = nil;
-        self.imageFileURL = [[[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory
+        [self setImageFileURL:[[[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory
                                                                     inDomain:NSUserDomainMask
                                                            appropriateForURL:nil
                                                                       create:NO
                                                                        error:&error]
-                             URLByAppendingPathComponent:[[url absoluteString] MD5]];
-        self.alpha = 0;
-        if ([self.imageFileURL isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[self.imageFileURL path]]) {
+                             URLByAppendingPathComponent:[[url absoluteString] MD5]]];
+        [self setAlpha:0.0];
+        if ([[self imageFileURL] isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[[self imageFileURL] path]]) {
             NSLog(@"Loading image from disk.");
-            self.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:self.imageFileURL]];
+            [self setImage:[[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[self imageFileURL]]] autorelease]];
             [self fadeInImage];
         } else {
             NSLog(@"Loading image from internet.");
@@ -62,7 +62,7 @@
 {
     [UIView beginAnimations:@"fadeIn" context:NULL];
     [UIView setAnimationDuration:0.5];
-    self.alpha = 1.0;
+    [self setAlpha:1.0];
     [UIView commitAnimations];
 }
 
@@ -81,8 +81,8 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    self.image = [[UIImage alloc] initWithData:receivedData];
-    [receivedData writeToURL:self.imageFileURL atomically:YES];
+    [self setImage:[[UIImage alloc] initWithData:receivedData]];
+    [receivedData writeToURL:[self imageFileURL] atomically:YES];
     [receivedData release];
     receivedData = nil;
     [self fadeInImage];
