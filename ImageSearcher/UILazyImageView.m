@@ -26,8 +26,14 @@
     self = [self init];
     
     if (self) {
-        receivedData = [NSMutableData data];
-        [self loadWithURL:url];
+        receivedData = [[NSMutableData data] retain];
+        self.alpha = 0;
+        if (file exists on disk) {
+            // load file from disk
+            [self fadeInImage];
+        } else {
+            [self loadWithURL:url];
+        }
     }
     
     return self;
@@ -35,7 +41,6 @@
 
 - (void)loadWithURL:(NSURL *)url
 {
-    self.alpha = 0;
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
     [connection start];
 }
@@ -55,10 +60,24 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     self.image = [[UIImage alloc] initWithData:receivedData];
+    [receivedData release];
+    receivedData = nil;
+    [self fadeInImage];
+}
+
+- (void)fadeInImage
+{
     [UIView beginAnimations:@"fadeIn" context:NULL];
     [UIView setAnimationDuration:0.5];
     self.alpha = 1.0;
     [UIView commitAnimations];
+}
+
+- (void)dealloc
+{
+    [receivedData release];
+    
+    [super dealloc];
 }
 
 /*

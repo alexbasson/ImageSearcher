@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GoogleImage.h"
 
 @interface UILazyImageView : UIImageView {
     NSMutableData *receivedData;

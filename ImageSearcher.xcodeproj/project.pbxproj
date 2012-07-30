@@ -19,6 +19,7 @@
 		FA506EE215C08E3F000F3FFC /* SearchQueryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */; };
 		FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */; };
 		FA506EE715C08FEF000F3FFC /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */; };
+		FAF2E7CF15C6287D0048A6D2 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF2E7CE15C6287D0048A6D2 /* NSString+MD5.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,8 @@
 		FA506EE315C08FEF000F3FFC /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
 		FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
+		FAF2E7CD15C6287D0048A6D2 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		FAF2E7CE15C6287D0048A6D2 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,8 @@
 		FA506ECA15C08D5F000F3FFC /* ImageSearcher */ = {
 			isa = PBXGroup;
 			children = (
+				FAF2E7CD15C6287D0048A6D2 /* NSString+MD5.h */,
+				FAF2E7CE15C6287D0048A6D2 /* NSString+MD5.m */,
 				FA506ED315C08D5F000F3FFC /* AppDelegate.h */,
 				FA506ED415C08D5F000F3FFC /* AppDelegate.m */,
 				FA506EDB15C08D8E000F3FFC /* GoogleImage.h */,
@@ -186,6 +191,7 @@
 				FA506EE115C08E3F000F3FFC /* SearchQueryViewController.m in Sources */,
 				FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */,
 				FA04A89115C5A0300017A709 /* UILazyImageView.m in Sources */,
+				FAF2E7CF15C6287D0048A6D2 /* NSString+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

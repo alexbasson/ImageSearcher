@@ -14,6 +14,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
 @property (strong, nonatomic) NSMutableArray *googleImages;
 
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+
 - (id)initWithQuery:(NSString *)query;
 
 @end
