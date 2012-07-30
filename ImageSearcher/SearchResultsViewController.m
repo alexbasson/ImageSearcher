@@ -96,7 +96,6 @@
                                                            visibleUrl:[result objectForKey:@"visibleUrl"]
                                                                 width:[result objectForKey:@"width"]];
             [self.googleImages addObject:image];
-            NSLog(@"%@", image);
             [image release];
         }
         NSLog(@"Number of images: %d", [self.googleImages count]); // This had better equal kResultSize * kNumberOfQueries

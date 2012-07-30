@@ -7,31 +7,42 @@
 //
 
 #import "UILazyImageView.h"
+#import "NSString+MD5.h"
+
+@interface UILazyImageView()
+@property (strong, nonatomic) NSURL *imageFileURL;
+@end
 
 @implementation UILazyImageView
 
-/*
-- (id)initWithFrame:(CGRect)frame
+@synthesize imageFileURL = _imageFileURL;
+
+- (void)dealloc
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    [receivedData release];
+    [self.imageFileURL release];
+    
+    [super dealloc];
 }
-*/
 
 - (id)initWithURL:(NSURL *)url
 {
     self = [self init];
     
     if (self) {
-        receivedData = [[NSMutableData data] retain];
+        __autoreleasing NSError *error = nil;
+        self.imageFileURL = [[[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory
+                                                                    inDomain:NSUserDomainMask
+                                                           appropriateForURL:nil
+                                                                      create:NO
+                                                                       error:&error]
+                             URLByAppendingPathComponent:[[url absoluteString] MD5]];
         self.alpha = 0;
-        if (file exists on disk) {
-            // load file from disk
+        if ([self.imageFileURL isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[self.imageFileURL path]]) {
+            self.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:self.imageFileURL]];
             [self fadeInImage];
         } else {
+            receivedData = [[NSMutableData data] retain];
             [self loadWithURL:url];
         }
     }
@@ -45,7 +56,16 @@
     [connection start];
 }
 
-#pragma mark - Delegate Methods
+- (void)fadeInImage
+{
+    [UIView beginAnimations:@"fadeIn" context:NULL];
+    [UIView setAnimationDuration:0.5];
+    self.alpha = 1.0;
+    [UIView commitAnimations];
+}
+
+
+#pragma mark - NSURLConnection delegate methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -60,33 +80,11 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     self.image = [[UIImage alloc] initWithData:receivedData];
+    [receivedData writeToURL:self.imageFileURL atomically:YES];
     [receivedData release];
     receivedData = nil;
     [self fadeInImage];
 }
 
-- (void)fadeInImage
-{
-    [UIView beginAnimations:@"fadeIn" context:NULL];
-    [UIView setAnimationDuration:0.5];
-    self.alpha = 1.0;
-    [UIView commitAnimations];
-}
-
-- (void)dealloc
-{
-    [receivedData release];
-    
-    [super dealloc];
-}
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

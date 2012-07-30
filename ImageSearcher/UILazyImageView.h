@@ -11,6 +11,8 @@
 
 @interface UILazyImageView : UIImageView {
     NSMutableData *receivedData;
+    NSString *md5;
+    NSURL *imageFileURL;
 }
 
 - (id)initWithURL:(NSURL *)url;
