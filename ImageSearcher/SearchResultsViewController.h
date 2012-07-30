@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchResultsViewController : UIViewController
+@interface SearchResultsViewController : UIViewController <UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSString *queryString;
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;

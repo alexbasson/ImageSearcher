@@ -39,9 +39,11 @@
                              URLByAppendingPathComponent:[[url absoluteString] MD5]];
         self.alpha = 0;
         if ([self.imageFileURL isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[self.imageFileURL path]]) {
+            NSLog(@"Loading image from disk.");
             self.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:self.imageFileURL]];
             [self fadeInImage];
         } else {
+            NSLog(@"Loading image from internet.");
             receivedData = [[NSMutableData data] retain];
             [self loadWithURL:url];
         }
