@@ -31,12 +31,12 @@
     
     if (self) {
         __autoreleasing NSError *error = nil;
-        [self setImageFileURL:[[[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory
+        _imageFileURL = [[[[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory
                                                                     inDomain:NSUserDomainMask
                                                            appropriateForURL:nil
                                                                       create:NO
                                                                        error:&error]
-                             URLByAppendingPathComponent:[[url absoluteString] MD5]]];
+                             URLByAppendingPathComponent:[[url absoluteString] MD5]] retain];
         [self setAlpha:0.0];
         if ([[self imageFileURL] isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[[self imageFileURL] path]]) {
             NSLog(@"Loading image from disk.");
@@ -48,7 +48,6 @@
             [self loadWithURL:url];
         }
     }
-    
     return self;
 }
 

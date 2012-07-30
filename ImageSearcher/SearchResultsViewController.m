@@ -64,7 +64,7 @@
 {
     self = [super init];
     if (self) {
-        self.queryString = query;
+        _queryString = [query retain];
     }
     return self;
 }

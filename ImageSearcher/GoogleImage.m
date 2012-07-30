@@ -60,20 +60,20 @@
 {
     self = [super init];
     if (self) {
-        self.content = content;
-        self.contentNoFormatting = contentNoFormatting;
-        self.height = height;
-        self.html = html;
-        self.originalContextURL = originalContextURL;
-        self.tbHeight = tbHeight;
-        self.tbUrl = tbUrl;
-        self.tbWidth = tbWidth;
-        self.title = title;
-        self.titleNoFormatting = titleNoFormatting;
-        self.unescapedUrl = unescapedUrl;
-        self.url = url;
-        self.visibleUrl = visibleUrl;
-        self.width = width;
+        _content = [content retain];
+        _contentNoFormatting = [contentNoFormatting retain];
+        _height = [height retain];
+        _html = [html retain];
+        _originalContextURL = [originalContextURL retain];
+        _tbHeight = [tbHeight retain];
+        _tbUrl = [tbUrl retain];
+        _tbWidth = [tbWidth retain];
+        _title = [title retain];
+        _titleNoFormatting = [titleNoFormatting retain];
+        _unescapedUrl = [unescapedUrl retain];
+        _url = [url retain];
+        _visibleUrl = [visibleUrl retain];
+        _width = [width retain];
     }
     return self;
 }
