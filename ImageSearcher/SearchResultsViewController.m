@@ -120,9 +120,6 @@
 // Determine which images to display based on where scrollView is relative to containerView.
 - (void)displayImages
 {
-    CGFloat x = 0.0f;
-    CGFloat y = 0.0f;
-    
     // Any point within xMin and xMax, yMin and yMax, is onscreen
     CGFloat xMin = [[self scrollView] bounds].origin.x;
     CGFloat yMin = [[self scrollView] bounds].origin.y;
@@ -143,27 +140,23 @@
     BOOL (^imageAtArrayIndexIsAlreadyLoaded)(NSUInteger) = ^(NSUInteger arrayIndex) {
         BOOL isOnscreen = NO;
         for (UIView *imageView in [[self containerView] subviews]) {
-            NSUInteger x = (NSUInteger)imageView.frame.origin.x;
-            NSUInteger y = (NSUInteger)imageView.frame.origin.y;
-            if (arrayIndex == (y / 200) * 4 + (x / 200)) {
+            NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
+            NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
+            if (arrayIndex == (yy / 200) * 4 + (xx / 200)) {
                 isOnscreen = YES;
             }
         }
         return isOnscreen;        
     };
     
-    for (GoogleImage *image in [self googleImages]) {
-        if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyLoaded([[self googleImages] indexOfObject:image])) {
-            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[image unescapedUrl]]];
+    for (NSUInteger i = 0; i < [[self googleImages] count]; i++) {
+        CGFloat x = (i % 4) * 200.0;
+        CGFloat y = (i / 4) * 200.0;
+        if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyLoaded(i)) {
+            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:i] unescapedUrl]]];
             [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
             [[self containerView] addSubview:imageView];
             [imageView release];            
-        }
-        if (x >= 600.0f) {
-            x = 0.0f;
-            y += 200.0f;
-        } else {
-            x += 200.0f;
         }
     }
 }
