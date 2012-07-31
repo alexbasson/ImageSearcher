@@ -122,17 +122,38 @@
 {
     CGFloat x = 0.0f;
     CGFloat y = 0.0f;
+    
+    // Any point within xMin and xMax, yMin and yMax, is onscreen
+    CGFloat xMin = [[self scrollView] bounds].origin.x;
+    CGFloat yMin = [[self scrollView] bounds].origin.y;
+    CGFloat xMax = xMin + [[self scrollView] bounds].size.width;
+    CGFloat yMax = yMin + [[self scrollView] bounds].size.height;
+    BOOL (^imageFrameIsOnscreen)(CGPoint) = ^(CGPoint frameOrigin) {        
+        return (BOOL)(frameOrigin.x >= xMin - 200.0f && frameOrigin.x <= xMax && frameOrigin.y >= yMin - 200.0f && frameOrigin.y <= yMax);
+    };
         
     // Remove any subviews that aren't onscreen
     for (UIView *imageView in [[self containerView] subviews]) {
-        if (![self imageFrameIsOnscreen:[imageView frame].origin]) {
+        if (!imageFrameIsOnscreen([imageView frame].origin)) {
             NSLog(@"Unloading image.");
             [imageView removeFromSuperview];
         }
     }
     
+    BOOL (^imageAtArrayIndexIsAlreadyLoaded)(NSUInteger) = ^(NSUInteger arrayIndex) {
+        BOOL isOnscreen = NO;
+        for (UIView *imageView in [[self containerView] subviews]) {
+            NSUInteger x = (NSUInteger)imageView.frame.origin.x;
+            NSUInteger y = (NSUInteger)imageView.frame.origin.y;
+            if (arrayIndex == (y / 200) * 4 + (x / 200)) {
+                isOnscreen = YES;
+            }
+        }
+        return isOnscreen;        
+    };
+    
     for (GoogleImage *image in [self googleImages]) {
-        if ([self imageFrameIsOnscreen:CGPointMake(x, y)] && !([self imageAtArrayIndexIsAlreadyLoaded:[[self googleImages] indexOfObject:image]])) {
+        if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyLoaded([[self googleImages] indexOfObject:image])) {
             UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[image unescapedUrl]]];
             [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
             [[self containerView] addSubview:imageView];
@@ -145,30 +166,6 @@
             x += 200.0f;
         }
     }
-}
-
-- (BOOL)imageFrameIsOnscreen:(CGPoint)frameOrigin
-{
-    // Any point within xMin and xMax, yMin and yMax, is onscreen
-    CGFloat xMin = [[self scrollView] bounds].origin.x;
-    CGFloat yMin = [[self scrollView] bounds].origin.y;
-    CGFloat xMax = xMin + [[self scrollView] bounds].size.width;
-    CGFloat yMax = yMin + [[self scrollView] bounds].size.height;
-    
-    return (frameOrigin.x >= xMin - 200.0f && frameOrigin.x <= xMax && frameOrigin.y >= yMin - 200.0f && frameOrigin.y <= yMax);
-}
-
-- (BOOL)imageAtArrayIndexIsAlreadyLoaded:(NSUInteger)arrayIndex
-{
-    BOOL isOnscreen = NO;
-    for (UIView *imageView in [[self containerView] subviews]) {
-        NSUInteger x = (NSUInteger)imageView.frame.origin.x;
-        NSUInteger y = (NSUInteger)imageView.frame.origin.y;
-        if (arrayIndex == (y / 200) * 4 + (x / 200)) {
-            isOnscreen = YES;
-        }
-    }
-    return isOnscreen;
 }
 
 - (void)centerScrollViewContents
