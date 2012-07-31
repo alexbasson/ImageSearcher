@@ -60,7 +60,7 @@
 - (void)fadeInImage
 {
     [UIView beginAnimations:@"fadeIn" context:NULL];
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDuration:0.25];
     [self setAlpha:1.0];
     [UIView commitAnimations];
 }
