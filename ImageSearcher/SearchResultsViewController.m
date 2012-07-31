@@ -137,7 +137,7 @@
         }
     }
     
-    BOOL (^imageAtArrayIndexIsAlreadyLoaded)(NSUInteger) = ^(NSUInteger arrayIndex) {
+    BOOL (^imageAtArrayIndexIsAlreadyOnscreen)(NSUInteger) = ^(NSUInteger arrayIndex) {
         BOOL isOnscreen = NO;
         for (UIView *imageView in [[self containerView] subviews]) {
             NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
@@ -152,7 +152,7 @@
     for (NSUInteger i = 0; i < [[self googleImages] count]; i++) {
         CGFloat x = (i % 4) * 200.0;
         CGFloat y = (i / 4) * 200.0;
-        if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyLoaded(i)) {
+        if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyOnscreen(i)) {
             UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:i] unescapedUrl]]];
             [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
             [[self containerView] addSubview:imageView];
