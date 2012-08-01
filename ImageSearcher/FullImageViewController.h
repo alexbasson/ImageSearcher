@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FullImageViewController : UIViewController
+@interface FullImageViewController : UIViewController <UIScrollViewDelegate>
+
+@property (strong, nonatomic) NSURL *imageURL;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+
+- (id)initWithImageURL:(NSURL *)theURL;
 
 @end
