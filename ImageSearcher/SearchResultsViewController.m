@@ -153,7 +153,7 @@
         CGFloat x = (i % 4) * 200.0;
         CGFloat y = (i / 4) * 200.0;
         if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyOnscreen(i)) {
-            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:i] unescapedUrl]]];
+            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:i] tbUrl]]];
             [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
             [[self containerView] addSubview:imageView];
             [imageView release];            
