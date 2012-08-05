@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ABScrollView.h"
 
 @interface SearchResultsViewController : UIViewController <UIScrollViewDelegate>
 
@@ -14,7 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
 @property (strong, nonatomic) NSMutableArray *googleImages;
 
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet ABScrollView *scrollView;
 
 - (id)initWithQuery:(NSString *)query;
 

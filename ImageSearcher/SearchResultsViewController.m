@@ -16,6 +16,7 @@
 #import "SearchResultsViewController.h"
 #import "GoogleImage.h"
 #import "UILazyImageView.h"
+#import "FullImageViewController.h"
 
 @interface NSDictionary(JSONCategories)
 + (NSDictionary *)dictionaryWithContentsOfJSONURLString:(NSString *)urlAddress;
@@ -140,8 +141,8 @@
     BOOL (^imageAtArrayIndexIsAlreadyOnscreen)(NSUInteger) = ^(NSUInteger arrayIndex) {
         BOOL isOnscreen = NO;
         for (UIView *imageView in [[self containerView] subviews]) {
-            NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
-            NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
+            NSUInteger xx = (NSUInteger)[imageView frame].origin.x;
+            NSUInteger yy = (NSUInteger)[imageView frame].origin.y;
             if (arrayIndex == (yy / 200) * 4 + (xx / 200)) {
                 isOnscreen = YES;
             }
@@ -155,8 +156,17 @@
         if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyOnscreen(i)) {
             UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:i] tbUrl]]];
             [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
+            
+            UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [imageButton setFrame:CGRectMake(0, 0, 200.0f, 200.0f)];
+            [imageButton addTarget:self action:@selector(imageTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:imageButton];
+            
+            [imageView setUserInteractionEnabled:YES];
+            
             [[self containerView] addSubview:imageView];
-            [imageView release];            
+            [imageView release];
+
         }
     }
 }
@@ -181,6 +191,17 @@
     [[self containerView] setFrame:contentsFrame];
 }
 
+- (void)imageTapped:(id)sender
+{
+    UIView *imageView = [sender superview];
+    // Get the index of sender in the googleImages array
+    NSUInteger xx = (NSUInteger)[imageView frame].origin.x;
+    NSUInteger yy = (NSUInteger)[imageView frame].origin.y;
+    NSUInteger index = (yy / 200) * 4 + (xx / 200);
+    FullImageViewController *fullImageViewController = [[[FullImageViewController alloc] initWithImageURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:index] unescapedUrl]]] autorelease];
+    [[self navigationController] pushViewController:fullImageViewController animated:YES];
+}
+
 
 #pragma mark -
 
@@ -195,7 +216,8 @@
     [self setContainerView:[[UIView alloc] initWithFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=containerSize}]];
     [[self scrollView] addSubview:[self containerView]];
     [[self containerView] release];
-            
+    
+    [[self scrollView] setCanCancelContentTouches:YES];
     [[self scrollView] setContentSize:containerSize];
 }
 

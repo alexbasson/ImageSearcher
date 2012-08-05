@@ -21,6 +21,7 @@
 		FA506EE215C08E3F000F3FFC /* SearchQueryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */; };
 		FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */; };
 		FA506EE715C08FEF000F3FFC /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */; };
+		FACC534A15CEA7F100BEFD19 /* ABScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FACC534915CEA7F100BEFD19 /* ABScrollView.m */; };
 		FAF2E7CF15C6287D0048A6D2 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF2E7CE15C6287D0048A6D2 /* NSString+MD5.m */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,8 @@
 		FA506EE315C08FEF000F3FFC /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
 		FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
+		FACC534815CEA7F100BEFD19 /* ABScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABScrollView.h; sourceTree = "<group>"; };
+		FACC534915CEA7F100BEFD19 /* ABScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScrollView.m; sourceTree = "<group>"; };
 		FAF2E7CD15C6287D0048A6D2 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		FAF2E7CE15C6287D0048A6D2 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,6 +107,8 @@
 				FA506EDC15C08D8E000F3FFC /* GoogleImage.m */,
 				FA04A88F15C5A0300017A709 /* UILazyImageView.h */,
 				FA04A89015C5A0300017A709 /* UILazyImageView.m */,
+				FACC534815CEA7F100BEFD19 /* ABScrollView.h */,
+				FACC534915CEA7F100BEFD19 /* ABScrollView.m */,
 				FA506EDE15C08E3F000F3FFC /* SearchQueryViewController.h */,
 				FA506EDF15C08E3F000F3FFC /* SearchQueryViewController.m */,
 				FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */,
@@ -202,6 +207,7 @@
 				FA04A89115C5A0300017A709 /* UILazyImageView.m in Sources */,
 				FAF2E7CF15C6287D0048A6D2 /* NSString+MD5.m in Sources */,
 				FA3F45CB15C9640700A031C0 /* FullImageViewController.m in Sources */,
+				FACC534A15CEA7F100BEFD19 /* ABScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

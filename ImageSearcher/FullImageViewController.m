@@ -62,18 +62,32 @@
     return self;
 }
 
-#pragma mark - 
+#pragma mark - UIScrollView delegate methods
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return [self imageView];
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidZoom: called.");
+    [self centerScrollViewContents];
+}
+
+#pragma mark -
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    UIImage *image = (UIImage *)[[UILazyImageView alloc] initWithURL:[self imageURL]];
-    [self setImageView:[[UIImageView alloc] initWithImage:image]];
-    [[self imageView] setFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=[image size]}];
+    UIImageView *lazyImageView = [[UILazyImageView alloc] initWithURL:[self imageURL]];
+    [self setImageView:lazyImageView];
+    [lazyImageView release];
+    [[self imageView] setFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=[[[self imageView] image] size]}];
     [[self scrollView] addSubview:[self imageView]];
-    [[self imageView] release];
-    [[self scrollView] setContentSize:[image size]];
+    [[self scrollView] setContentSize:[[[self imageView] image] size]];
+
     
     UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
     [doubleTapRecognizer setNumberOfTapsRequired:2];
@@ -108,17 +122,17 @@
 
 - (void)centerScrollViewContents
 {
-    CGSize boundSize = [[self scrollView] bounds].size;
+    CGSize boundsSize = [[self scrollView] bounds].size;
     CGRect contentsFrame = [[self imageView] frame];
     
-    if (contentsFrame.size.width < boundSize.width) {
-        contentsFrame.origin.x = (boundSize.width - contentsFrame.size.width) / 2.0f;
+    if (contentsFrame.size.width < boundsSize.width) {
+        contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
     } else {
         contentsFrame.origin.x = 0.0f;
     }
     
-    if (contentsFrame.size.height < boundSize.height) {
-        contentsFrame.origin.y = (boundSize.height - contentsFrame.size.height) / 2.0f;
+    if (contentsFrame.size.height < boundsSize.height) {
+        contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0f;
     } else {
         contentsFrame.origin.y = 0.0f;
     }
@@ -128,6 +142,7 @@
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer *)recognizer
 {
+    NSLog(@"scrollViewDoubleTapped: called with scrollView delegate: %@", [[self scrollView] delegate]);
     CGPoint pointInView = [recognizer locationInView:[self imageView]];
     
     CGFloat newZoomScale = [[self scrollView] zoomScale] * 1.5f;
@@ -145,6 +160,7 @@
 
 - (void)scrollViewTwoFingerTapped:(UITapGestureRecognizer *)recognizer
 {
+    NSLog(@"scrollViewTwoFingerTapped: called with scrollView delegate: %@", [[self scrollView] delegate]);
     // Zoom out slightly, capping at the minimum zoom scale specifie by the scroll view
     CGFloat newZoomScale = [[self scrollView] zoomScale] / 1.5f;
     newZoomScale = MAX(newZoomScale, [[self scrollView] minimumZoomScale]);
@@ -154,18 +170,6 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - UIScrollView delegate methods
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    return [self imageView];
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
-    [self centerScrollViewContents];
 }
 
 @end
