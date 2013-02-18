@@ -22,10 +22,6 @@
 
 @implementation FullImageViewController
 
-@synthesize imageURL = _imageURL;
-@synthesize scrollView = _scrollView;
-@synthesize imageView = _imageView;
-
 - (void)dealloc
 {
     [_imageURL release];
@@ -39,8 +35,8 @@
 {
     [super viewDidUnload];
     
-    [[self scrollView] release];
-    [self setScrollView:nil];
+    [self.scrollView release];
+    self.scrollView = nil;
 }
 
 #pragma mark - Initializers
@@ -69,7 +65,7 @@
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    return [self imageView];
+    return self.imageView;
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
@@ -86,26 +82,26 @@
     
     dispatch_async(kMainQueue, ^{
         UIImageView *lazyImageView = [[UILazyImageView alloc] initWithURL:[self imageURL]];
-        [self setImageView:lazyImageView];
+        self.imageView = lazyImageView;
         [lazyImageView release];
-        [[self imageView] setFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=[[[self imageView] image] size]}];
-        [[self scrollView] addSubview:[self imageView]];
-        [[self scrollView] setContentSize:[[[self imageView] image] size]];
+        self.imageView.frame = (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=[[[self imageView] image] size]};
+        [self.scrollView addSubview:self.imageView];
+        self.scrollView.contentSize = self.imageView.image.size;
         [self centerScrollViewContents];
     });
 
     
     /*
     UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
-    [doubleTapRecognizer setNumberOfTapsRequired:2];
-    [doubleTapRecognizer setNumberOfTouchesRequired:1];
-    [[self scrollView] addGestureRecognizer:doubleTapRecognizer];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+    doubleTapRecognizer.numberOfTouchesRequired = 1;
+    [self.scrollView addGestureRecognizer:doubleTapRecognizer];
     [doubleTapRecognizer release];
     
     UITapGestureRecognizer *twoFingerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTwoFingerTapped:)];
-    [twoFingerTapRecognizer setNumberOfTapsRequired:1];
-    [twoFingerTapRecognizer setNumberOfTouchesRequired:2];
-    [[self scrollView] addGestureRecognizer:twoFingerTapRecognizer];
+    twoFingerTapRecognizer.numberOfTapsRequired = 1;
+    twoFingerTapRecognizer.numberOfTouchesRequired: = 2;
+    [self.scrollView addGestureRecognizer:twoFingerTapRecognizer];
     [twoFingerTapRecognizer release];
     */
 }
@@ -114,14 +110,14 @@
 {
     [super viewWillAppear:animated];
     
-    CGRect scrollViewFrame = [[self scrollView] frame];
-    CGFloat scaleWidth = scrollViewFrame.size.width / [[self scrollView] contentSize].width;
-    CGFloat scaleHeight = scrollViewFrame.size.height / [[self scrollView] contentSize].height;
+    CGRect scrollViewFrame = self.scrollView.frame;
+    CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
+    CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
     CGFloat minScale = MIN(scaleWidth, scaleHeight);
-    [[self scrollView] setMinimumZoomScale:minScale];
+    self.scrollView.minimumZoomScale = minScale;
     
-    [[self scrollView] setMaximumZoomScale:1.0f];
-    [[self scrollView] setZoomScale:minScale];
+    self.scrollView.maximumZoomScale = 1.0f;
+    self.scrollView.zoomScale = minScale;
     
     [self centerScrollViewContents];
 }
@@ -130,8 +126,8 @@
 
 - (void)centerScrollViewContents
 {
-    CGSize boundsSize = [[self scrollView] bounds].size;
-    CGRect contentsFrame = [[self imageView] frame];
+    CGSize boundsSize = self.scrollView.bounds.size;
+    CGRect contentsFrame = self.imageView.frame;
     
     if (contentsFrame.size.width < boundsSize.width) {
         contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
@@ -145,33 +141,33 @@
         contentsFrame.origin.y = 0.0f;
     }
     
-    [[self imageView] setFrame:contentsFrame];
+    self.imageView.frame = contentsFrame;
 }
 
 /*
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer *)recognizer
 {
-    CGPoint pointInView = [recognizer locationInView:[self imageView]];
+    CGPoint pointInView = [recognizer locationInView:self.imageView];
     
-    CGFloat newZoomScale = [[self scrollView] zoomScale] * 1.5f;
+    CGFloat newZoomScale = self.scrollView.zoomScale * 1.5f;
     newZoomScale = MIN(newZoomScale, [[self scrollView] maximumZoomScale]);
     
-    CGSize scrollViewSize = [[self scrollView] bounds].size;
+    CGSize scrollViewSize = self.scrollView.bounds.size;
     
     CGFloat w = scrollViewSize.width / newZoomScale;
     CGFloat h = scrollViewSize.height / newZoomScale;
     CGFloat x = pointInView.x - (w / 2.0f);
     CGFloat y = pointInView.y - (h / 2.0f);
     
-    [[self scrollView] zoomToRect:CGRectMake(x, y, w, h) animated:YES];
+    [self.scrollView zoomToRect:CGRectMake(x, y, w, h) animated:YES];
 }
 
 - (void)scrollViewTwoFingerTapped:(UITapGestureRecognizer *)recognizer
 {
     // Zoom out slightly, capping at the minimum zoom scale specifie by the scroll view
-    CGFloat newZoomScale = [[self scrollView] zoomScale] / 1.5f;
-    newZoomScale = MAX(newZoomScale, [[self scrollView] minimumZoomScale]);
-    [[self scrollView] setZoomScale:newZoomScale animated:YES];
+    CGFloat newZoomScale = self.scrollView.zoomScale / 1.5f;
+    newZoomScale = MAX(newZoomScale, [self.scrollView minimumZoomScale]);
+    [self.scrollView setZoomScale:newZoomScale animated:YES];
 }
 */
 

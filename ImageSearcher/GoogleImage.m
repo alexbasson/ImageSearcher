@@ -10,21 +10,6 @@
 
 @implementation GoogleImage
 
-@synthesize content = _content;
-@synthesize contentNoFormatting = _contentNoFormatting;
-@synthesize height = _height;
-@synthesize html = _html;
-@synthesize originalContextURL = _originalContextURL;
-@synthesize tbHeight = _tbHeight;
-@synthesize tbUrl = _tbUrl;
-@synthesize tbWidth = _tbWidth;
-@synthesize title = _title;
-@synthesize titleNoFormatting = _titleNoFormatting;
-@synthesize unescapedUrl = _unescapedUrl;
-@synthesize url = _url;
-@synthesize visibleUrl = _visibleUrl;
-@synthesize width = _width;
-
 - (void)dealloc
 {
     [_content release];
@@ -81,7 +66,7 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"Google Image\n\tTitle: %@\n\tContent: %@\n\tURL: %@\n\tHeight: %@\n\tWidth: %@\n\ttbURL: %@\n\ttbHeight: %@\n\ttbWidth: %@\n\n",
-            [self title], [self content], [self unescapedUrl], [self height], [self width], [self tbUrl], [self tbHeight], [self tbWidth]];
+            self.title, self.content, self.unescapedUrl, self.height, self.width, self.tbUrl, self.tbHeight, self.tbWidth];
             
 }
 

@@ -38,9 +38,9 @@
                                                                        error:&error]
                              URLByAppendingPathComponent:[[url absoluteString] MD5]] retain];
         [self setAlpha:0.0];
-        if ([[self imageFileURL] isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[[self imageFileURL] path]]) {
+        if ([[self imageFileURL] isFileURL] && [[NSFileManager defaultManager] fileExistsAtPath:[self.imageFileURL path]]) {
             NSLog(@"Loading image from disk.");
-            [self setImage:[[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[self imageFileURL]]] autorelease]];
+            self.image = [[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:self.imageFileURL]] autorelease];
             [self fadeInImage];
         } else {
             NSLog(@"Loading image from internet.");
@@ -61,7 +61,7 @@
 {
     [UIView beginAnimations:@"fadeIn" context:NULL];
     [UIView setAnimationDuration:0.25];
-    [self setAlpha:1.0];
+    self.alpha = 1.0;
     [UIView commitAnimations];
 }
 
@@ -70,7 +70,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [receivedData setLength:0];
+    receivedData.length = 0;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -81,7 +81,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [self setImage:[[UIImage alloc] initWithData:receivedData]];
-    [receivedData writeToURL:[self imageFileURL] atomically:YES];
+    [receivedData writeToURL:self.imageFileURL atomically:YES];
     [receivedData release];
     receivedData = nil;
     [self fadeInImage];

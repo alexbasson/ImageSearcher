@@ -21,6 +21,7 @@
 		FA506EE215C08E3F000F3FFC /* SearchQueryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE015C08E3F000F3FFC /* SearchQueryViewController.xib */; };
 		FA506EE615C08FEF000F3FFC /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */; };
 		FA506EE715C08FEF000F3FFC /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */; };
+		FA59769316D2CD74009847AE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA59769216D2CD74009847AE /* Default-568h@2x.png */; };
 		FACC534A15CEA7F100BEFD19 /* ABScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FACC534915CEA7F100BEFD19 /* ABScrollView.m */; };
 		FAF2E7CF15C6287D0048A6D2 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF2E7CE15C6287D0048A6D2 /* NSString+MD5.m */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 		FA506EE315C08FEF000F3FFC /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
 		FA506EE415C08FEF000F3FFC /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		FA506EE515C08FEF000F3FFC /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
+		FA59769216D2CD74009847AE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FACC534815CEA7F100BEFD19 /* ABScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABScrollView.h; sourceTree = "<group>"; };
 		FACC534915CEA7F100BEFD19 /* ABScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABScrollView.m; sourceTree = "<group>"; };
 		FAF2E7CD15C6287D0048A6D2 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		FA506EB515C08D5F000F3FFC = {
 			isa = PBXGroup;
 			children = (
+				FA59769216D2CD74009847AE /* Default-568h@2x.png */,
 				FA506ECA15C08D5F000F3FFC /* ImageSearcher */,
 				FA506EC315C08D5F000F3FFC /* Frameworks */,
 				FA506EC115C08D5F000F3FFC /* Products */,
@@ -160,7 +163,7 @@
 		FA506EB715C08D5F000F3FFC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Poly Prep C.D.S.";
 			};
 			buildConfigurationList = FA506EBA15C08D5F000F3FFC /* Build configuration list for PBXProject "ImageSearcher" */;
@@ -189,6 +192,7 @@
 				FA506EE215C08E3F000F3FFC /* SearchQueryViewController.xib in Resources */,
 				FA506EE715C08FEF000F3FFC /* SearchResultsViewController.xib in Resources */,
 				FA3F45CC15C9640700A031C0 /* FullImageViewController.xib in Resources */,
+				FA59769316D2CD74009847AE /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +234,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -254,6 +262,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -11,7 +11,7 @@
 
 @interface SearchResultsViewController : UIViewController <UIScrollViewDelegate>
 
-@property (strong, nonatomic) NSString *queryString;
+@property (copy, nonatomic) NSString *queryString;
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
 @property (strong, nonatomic) NSMutableArray *googleImages;
 

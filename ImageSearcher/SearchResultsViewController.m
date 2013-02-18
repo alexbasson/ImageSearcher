@@ -41,12 +41,6 @@
 
 @implementation SearchResultsViewController
 
-@synthesize queryString = _queryString;
-@synthesize queryStringLabel = _queryStringLabel;
-@synthesize googleImages = _googleImages;
-@synthesize scrollView = _scrollView;
-@synthesize containerView = _containerView;
-
 - (void)dealloc
 {
     [_queryString release];
@@ -85,33 +79,33 @@
 - (void)fetchSearchResults
 {
     dispatch_async(kBgQueue, ^{
-        [self setGoogleImages:[NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries]];
+        self.googleImages = [NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries];
         NSMutableArray *searchResults = [NSMutableArray arrayWithCapacity:kResultSize*kNumberOfQueries];
         for (NSUInteger i = 0; i < kNumberOfQueries; i++) {
             NSDictionary *jsonData = [NSDictionary dictionaryWithContentsOfJSONURLString:
                                       [kGoogleImageSearchURL stringByAppendingFormat:@"rsz=%i&start=%i&q=%@", kResultSize, i*kResultSize, [self queryString]]];
-            NSDictionary *results = [jsonData objectForKey:@"responseData"];
-            [searchResults addObjectsFromArray:[results objectForKey:@"results"]];
+            NSDictionary *results = jsonData[@"responseData"];
+            [searchResults addObjectsFromArray:results[@"results"]];
         }
         for (NSDictionary *result in searchResults) {
-            GoogleImage *image = [[GoogleImage alloc] initWithContent:[result objectForKey:@"content"]
-                                                  contentNoFormatting:[result objectForKey:@"contentNoFormatting"]
-                                                               height:[result objectForKey:@"height"]
-                                                                 html:[result objectForKey:@"html"]
-                                                 origininalContextURL:[result objectForKey:@"originalContextUrl"]
-                                                             tbHeight:[result objectForKey:@"tbHeight"]
-                                                                tbURL:[result objectForKey:@"tbUrl"]
-                                                              tbWidth:[result objectForKey:@"tbWidth"]
-                                                                title:[result objectForKey:@"title"]
-                                                    titleNoFormatting:[result objectForKey:@"titleNoFormatting"]
-                                                         unescapedUrl:[result objectForKey:@"unescapedUrl"]
-                                                                  url:[result objectForKey:@"url"]
-                                                           visibleUrl:[result objectForKey:@"visibleUrl"]
-                                                                width:[result objectForKey:@"width"]];
-            [[self googleImages] addObject:image];
+            GoogleImage *image = [[GoogleImage alloc] initWithContent:result[@"content"]
+                                                  contentNoFormatting:result[@"contentNoFormatting"]
+                                                               height:result[@"height"]
+                                                                 html:result[@"html"]
+                                                 origininalContextURL:result[@"originalContextUrl"]
+                                                             tbHeight:result[@"tbHeight"]
+                                                                tbURL:result[@"tbUrl"]
+                                                              tbWidth:result[@"tbWidth"]
+                                                                title:result[@"title"]
+                                                    titleNoFormatting:result[@"titleNoFormatting"]
+                                                         unescapedUrl:result[@"unescapedUrl"]
+                                                                  url:result[@"url"]
+                                                           visibleUrl:result[@"visibleUrl"]
+                                                                width:result[@"width"]];
+            [self.googleImages addObject:image];
             [image release];
         }
-        NSLog(@"Number of images: %d", [[self googleImages] count]); // This had better equal kResultSize * kNumberOfQueries
+        NSLog(@"Number of images: %d", [self.googleImages count]); // This had better equal kResultSize * kNumberOfQueries
         dispatch_async(kMainQueue, ^{
             [self displayImages];
         });
@@ -122,17 +116,17 @@
 - (void)displayImages
 {
     // Any point within xMin and xMax, yMin and yMax, is onscreen
-    CGFloat xMin = [[self scrollView] bounds].origin.x;
-    CGFloat yMin = [[self scrollView] bounds].origin.y;
-    CGFloat xMax = xMin + [[self scrollView] bounds].size.width;
-    CGFloat yMax = yMin + [[self scrollView] bounds].size.height;
+    CGFloat xMin = self.scrollView.bounds.origin.x;
+    CGFloat yMin = self.scrollView.bounds.origin.y;
+    CGFloat xMax = xMin + self.scrollView.bounds.size.width;
+    CGFloat yMax = yMin + self.scrollView.bounds.size.height;
     BOOL (^imageFrameIsOnscreen)(CGPoint) = ^(CGPoint frameOrigin) {        
         return (BOOL)(frameOrigin.x >= xMin - 200.0f && frameOrigin.x <= xMax && frameOrigin.y >= yMin - 200.0f && frameOrigin.y <= yMax);
     };
         
     // Remove any subviews that aren't onscreen
-    for (UIView *imageView in [[self containerView] subviews]) {
-        if (!imageFrameIsOnscreen([imageView frame].origin)) {
+    for (UIView *imageView in self.containerView.subviews) {
+        if (!imageFrameIsOnscreen(imageView.frame.origin)) {
             NSLog(@"Unloading image.");
             [imageView removeFromSuperview];
         }
@@ -140,9 +134,9 @@
     
     BOOL (^imageAtArrayIndexIsAlreadyOnscreen)(NSUInteger) = ^(NSUInteger arrayIndex) {
         BOOL isOnscreen = NO;
-        for (UIView *imageView in [[self containerView] subviews]) {
-            NSUInteger xx = (NSUInteger)[imageView frame].origin.x;
-            NSUInteger yy = (NSUInteger)[imageView frame].origin.y;
+        for (UIView *imageView in self.containerView.subviews) {
+            NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
+            NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
             if (arrayIndex == (yy / 200) * 4 + (xx / 200)) {
                 isOnscreen = YES;
             }
@@ -150,21 +144,22 @@
         return isOnscreen;        
     };
     
-    for (NSUInteger i = 0; i < [[self googleImages] count]; i++) {
+    for (NSUInteger i = 0; i < [self.googleImages count]; i++) {
         CGFloat x = (i % 4) * 200.0;
         CGFloat y = (i / 4) * 200.0;
         if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyOnscreen(i)) {
-            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:i] tbUrl]]];
-            [imageView setFrame:CGRectMake(x, y, 200.0f, 200.0f)];
+            GoogleImage *googleImage = self.googleImages[i];
+            UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:googleImage.tbUrl]];
+            imageView.frame = CGRectMake(x, y, 200.0f, 200.0f);
             
             UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [imageButton setFrame:CGRectMake(0, 0, 200.0f, 200.0f)];
+            imageButton.frame = CGRectMake(0, 0, 200.0f, 200.0f);
             [imageButton addTarget:self action:@selector(imageTapped:) forControlEvents:UIControlEventTouchUpInside];
             [imageView addSubview:imageButton];
             
-            [imageView setUserInteractionEnabled:YES];
+            imageView.userInteractionEnabled = YES;
             
-            [[self containerView] addSubview:imageView];
+            [self.containerView addSubview:imageView];
             [imageView release];
 
         }
@@ -173,8 +168,8 @@
 
 - (void)centerScrollViewContents
 {
-    CGSize boundSize = [[self scrollView] bounds].size;
-    CGRect contentsFrame = [[self containerView] frame];
+    CGSize boundSize = self.scrollView.bounds.size;
+    CGRect contentsFrame = self.containerView.frame;
     
     if (contentsFrame.size.width < boundSize.width) {
         contentsFrame.origin.x = (boundSize.width - contentsFrame.size.width) / 2.0f;
@@ -188,18 +183,19 @@
         contentsFrame.origin.y = 0.0f;
     }
     
-    [[self containerView] setFrame:contentsFrame];
+    self.containerView.frame = contentsFrame;
 }
 
 - (void)imageTapped:(id)sender
 {
     UIView *imageView = [sender superview];
     // Get the index of sender in the googleImages array
-    NSUInteger xx = (NSUInteger)[imageView frame].origin.x;
-    NSUInteger yy = (NSUInteger)[imageView frame].origin.y;
+    NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
+    NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
     NSUInteger index = (yy / 200) * 4 + (xx / 200);
-    FullImageViewController *fullImageViewController = [[[FullImageViewController alloc] initWithImageURL:[NSURL URLWithString:[[[self googleImages] objectAtIndex:index] unescapedUrl]]] autorelease];
-    [[self navigationController] pushViewController:fullImageViewController animated:YES];
+    GoogleImage *googleImage = self.googleImages[index];
+    FullImageViewController *fullImageViewController = [[[FullImageViewController alloc] initWithImageURL:[NSURL URLWithString:googleImage.unescapedUrl]] autorelease];
+    [self.navigationController pushViewController:fullImageViewController animated:YES];
 }
 
 
@@ -208,17 +204,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self queryStringLabel] setText:[self queryString]];
+    self.queryStringLabel.text = self.queryString;
     [self fetchSearchResults];
     
     // Set up container view to hold images
     CGSize containerSize = CGSizeMake(800.0f, 1200.0f);
     [self setContainerView:[[UIView alloc] initWithFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=containerSize}]];
-    [[self scrollView] addSubview:[self containerView]];
-    [[self containerView] release];
+    [self.scrollView addSubview:self.containerView];
+    [self.containerView release];
     
-    [[self scrollView] setCanCancelContentTouches:YES];
-    [[self scrollView] setContentSize:containerSize];
+    self.scrollView.canCancelContentTouches = YES;
+    self.scrollView.contentSize = containerSize;
 }
 
 
@@ -231,10 +227,10 @@
 {
     [super viewDidUnload];
     [[self queryStringLabel] release];
-    [self setQueryStringLabel:nil];
+    self.queryStringLabel = nil;
     
     [[self scrollView] release];
-    [self setScrollView:nil];
+    self.scrollView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

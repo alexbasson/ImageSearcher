@@ -15,13 +15,11 @@
 
 @implementation SearchQueryViewController
 
-@synthesize query = _query;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [[self navigationItem] setTitle:@"Google Image Search"];
+        self.navigationItem.title = @"Google Image Search";
     }
     return self;
 }
@@ -34,8 +32,8 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[self query] release];
-    [self setQuery:nil];
+    [self.query release];
+    self.query = nil;
 }
 
 - (void)dealloc
@@ -51,7 +49,7 @@
 
 - (IBAction)findImagesPressed:(id)sender
 {
-    SearchResultsViewController *searchResultsViewController = [[[SearchResultsViewController alloc] initWithQuery:[[self query] text]] autorelease];
+    SearchResultsViewController *searchResultsViewController = [[[SearchResultsViewController alloc] initWithQuery:[self.query text]] autorelease];
     [[self navigationController] pushViewController:searchResultsViewController animated:YES];
 }
 
@@ -63,7 +61,7 @@
 
 - (IBAction)backgroundTapped:(id)sender
 {
-    [[self view] endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 @end

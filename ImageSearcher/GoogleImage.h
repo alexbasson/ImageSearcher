@@ -10,20 +10,20 @@
 
 @interface GoogleImage : NSObject
 
-@property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSString *contentNoFormatting;
-@property (strong, nonatomic) NSString *height;
-@property (strong, nonatomic) NSString *html;
-@property (strong, nonatomic) NSString *originalContextURL;
-@property (strong, nonatomic) NSString *tbHeight;
-@property (strong, nonatomic) NSString *tbUrl;
-@property (strong, nonatomic) NSString *tbWidth;
-@property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) NSString *titleNoFormatting;
-@property (strong, nonatomic) NSString *unescapedUrl;
-@property (strong, nonatomic) NSString *url;
-@property (strong, nonatomic) NSString *visibleUrl;
-@property (strong, nonatomic) NSString *width;
+@property (copy, nonatomic) NSString *content;
+@property (copy, nonatomic) NSString *contentNoFormatting;
+@property (copy, nonatomic) NSString *height;
+@property (copy, nonatomic) NSString *html;
+@property (copy, nonatomic) NSString *originalContextURL;
+@property (copy, nonatomic) NSString *tbHeight;
+@property (copy, nonatomic) NSString *tbUrl;
+@property (copy, nonatomic) NSString *tbWidth;
+@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *titleNoFormatting;
+@property (copy, nonatomic) NSString *unescapedUrl;
+@property (copy, nonatomic) NSString *url;
+@property (copy, nonatomic) NSString *visibleUrl;
+@property (copy, nonatomic) NSString *width;
 
 
 - (id)initWithContent:(NSString *)content
