@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ABScrollView.h"
 
+@protocol SearchResultsViewControllerDelegate;
+
 @interface SearchResultsViewController : UIViewController <UIScrollViewDelegate>
+{
+    id <SearchResultsViewControllerDelegate> delegate;
+}
+
+@property (nonatomic,assign) id <SearchResultsViewControllerDelegate> delegate;
+
 
 @property (copy, nonatomic) NSString *queryString;
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
@@ -19,4 +27,10 @@
 
 - (id)initWithQuery:(NSString *)query;
 
+@end
+
+@protocol SearchResultsViewControllerDelegate <NSObject>
+@required
+@optional
+- (void)searchResultViewController:(SearchResultsViewController *)controller image:(UIImage*)image;
 @end

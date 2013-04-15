@@ -41,6 +41,7 @@
 @end
 
 @implementation SearchResultsViewController
+@synthesize delegate;
 
 - (void)dealloc
 {
@@ -195,6 +196,12 @@
     NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
     NSUInteger index = (yy / 200) * 4 + (xx / 200);
     GoogleImage *googleImage = self.googleImages[index];
+    NSLog(@"url [%@][%@]",googleImage.unescapedUrl,googleImage.tbUrl);
+    UILazyImageView *iView = (UILazyImageView *)imageView;
+    if([delegate respondsToSelector:@selector(searchResultViewController:image:)]) {
+        [delegate searchResultViewController:self image:iView.image];
+    }
+//    iView.image;
     FullImageViewController *fullImageViewController = [[[FullImageViewController alloc] initWithImageURL:[NSURL URLWithString:googleImage.unescapedUrl]] autorelease];
     [self.navigationController pushViewController:fullImageViewController animated:YES];
 }
