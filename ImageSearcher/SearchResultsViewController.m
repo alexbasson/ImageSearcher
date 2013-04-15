@@ -25,6 +25,7 @@
 @implementation NSDictionary(JSONCategories)
 + (NSDictionary *)dictionaryWithContentsOfJSONURLString:(NSString *)urlAddress
 {
+    urlAddress = [urlAddress stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlAddress]];
     __autoreleasing NSError *error = nil;
     id result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
