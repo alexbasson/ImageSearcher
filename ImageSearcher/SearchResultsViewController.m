@@ -122,8 +122,9 @@
     CGFloat yMin = self.scrollView.bounds.origin.y;
     CGFloat xMax = xMin + self.scrollView.bounds.size.width;
     CGFloat yMax = yMin + self.scrollView.bounds.size.height;
-    BOOL (^imageFrameIsOnscreen)(CGPoint) = ^(CGPoint frameOrigin) {        
-        return (BOOL)(frameOrigin.x >= xMin - 200.0f && frameOrigin.x <= xMax && frameOrigin.y >= yMin - 200.0f && frameOrigin.y <= yMax);
+    BOOL (^imageFrameIsOnscreen)(CGPoint) = ^(CGPoint frameOrigin) {
+        float det = [[UIScreen mainScreen] bounds].size.width/4.0f;
+        return (BOOL)(frameOrigin.x >= xMin - det && frameOrigin.x <= xMax && frameOrigin.y >= yMin - det && frameOrigin.y <= yMax);
     };
         
     // Remove any subviews that aren't onscreen
@@ -139,7 +140,8 @@
         for (UIView *imageView in self.containerView.subviews) {
             NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
             NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
-            if (arrayIndex == (yy / 200) * 4 + (xx / 200)) {
+            float det = [[UIScreen mainScreen] bounds].size.width/4.0f;
+            if (arrayIndex == (yy / det) * 4 + (xx / det)) {
                 isOnscreen = YES;
             }
         }
@@ -147,15 +149,16 @@
     };
     
     for (NSUInteger i = 0; i < [self.googleImages count]; i++) {
-        CGFloat x = (i % 4) * 200.0;
-        CGFloat y = (i / 4) * 200.0;
+        float det = [[UIScreen mainScreen] bounds].size.width/4.0f;
+        CGFloat x = (i % 4) * det;
+        CGFloat y = (i / 4) * det;
         if (imageFrameIsOnscreen(CGPointMake(x, y)) && !imageAtArrayIndexIsAlreadyOnscreen(i)) {
             GoogleImage *googleImage = self.googleImages[i];
             UILazyImageView *imageView = [[UILazyImageView alloc] initWithURL:[NSURL URLWithString:googleImage.tbUrl]];
-            imageView.frame = CGRectMake(x, y, 200.0f, 200.0f);
+            imageView.frame = CGRectMake(x, y, det, det);
             
             UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            imageButton.frame = CGRectMake(0, 0, 200.0f, 200.0f);
+            imageButton.frame = CGRectMake(0, 0, det, det);
             [imageButton addTarget:self action:@selector(imageTapped:) forControlEvents:UIControlEventTouchUpInside];
             [imageView addSubview:imageButton];
             
@@ -194,7 +197,8 @@
     // Get the index of sender in the googleImages array
     NSUInteger xx = (NSUInteger)imageView.frame.origin.x;
     NSUInteger yy = (NSUInteger)imageView.frame.origin.y;
-    NSUInteger index = (yy / 200) * 4 + (xx / 200);
+    float det = [[UIScreen mainScreen] bounds].size.width/4.0f;
+    NSUInteger index = (yy / det) * 4 + (xx / det);
     GoogleImage *googleImage = self.googleImages[index];
     NSLog(@"url [%@][%@]",googleImage.unescapedUrl,googleImage.tbUrl);
     if([delegate respondsToSelector:@selector(searchResultViewController:url:)]) {
@@ -218,7 +222,8 @@
     [searchBar becomeFirstResponder];
     
     // Set up container view to hold images
-    CGSize containerSize = CGSizeMake(800.0f, 1200.0f);
+    float det = [[UIScreen mainScreen] bounds].size.width/4.0f;
+    CGSize containerSize = CGSizeMake(det*4, det*6);
     [self setContainerView:[[UIView alloc] initWithFrame:(CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=containerSize}]];
     [self.scrollView addSubview:self.containerView];
     [self.containerView release];
@@ -226,7 +231,6 @@
     self.scrollView.canCancelContentTouches = YES;
     self.scrollView.contentSize = containerSize;
 }
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
