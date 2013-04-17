@@ -11,9 +11,10 @@
 
 @protocol SearchResultsViewControllerDelegate;
 
-@interface SearchResultsViewController : UIViewController <UIScrollViewDelegate>
+@interface SearchResultsViewController : UIViewController <UIScrollViewDelegate,UISearchBarDelegate>
 {
     id <SearchResultsViewControllerDelegate> delegate;
+    IBOutlet UISearchBar* searchBar;
 }
 
 @property (nonatomic,assign) id <SearchResultsViewControllerDelegate> delegate;
@@ -32,5 +33,6 @@
 @protocol SearchResultsViewControllerDelegate <NSObject>
 @required
 @optional
-- (void)searchResultViewController:(SearchResultsViewController *)controller image:(UIImage*)image;
+- (void)searchResultViewController:(SearchResultsViewController *)controller url:(NSString*)url;
+- (void)searchResultViewControllerDidFinished:(SearchResultsViewController *)controller;
 @end
