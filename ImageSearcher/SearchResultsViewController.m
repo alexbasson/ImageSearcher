@@ -109,13 +109,13 @@
         }
         NSLog(@"Number of images: %d", [self.googleImages count]); // This had better equal kResultSize * kNumberOfQueries
         dispatch_async(kMainQueue, ^{
-            [self displayImages];
+            [self displayImages:NO];
         });
     });
 }
 
 // Determine which images to display based on where scrollView is relative to containerView.
-- (void)displayImages
+- (void)displayImages:(BOOL)force
 {
     // Any point within xMin and xMax, yMin and yMax, is onscreen
     CGFloat xMin = self.scrollView.bounds.origin.x;
@@ -128,7 +128,7 @@
         
     // Remove any subviews that aren't onscreen
     for (UIView *imageView in self.containerView.subviews) {
-        if (!imageFrameIsOnscreen(imageView.frame.origin)) {
+        if (!imageFrameIsOnscreen(imageView.frame.origin) || force==YES) {
             NSLog(@"Unloading image.");
             [imageView removeFromSuperview];
         }
@@ -197,13 +197,13 @@
     NSUInteger index = (yy / 200) * 4 + (xx / 200);
     GoogleImage *googleImage = self.googleImages[index];
     NSLog(@"url [%@][%@]",googleImage.unescapedUrl,googleImage.tbUrl);
-    UILazyImageView *iView = (UILazyImageView *)imageView;
-    if([delegate respondsToSelector:@selector(searchResultViewController:image:)]) {
-        [delegate searchResultViewController:self image:iView.image];
+    if([delegate respondsToSelector:@selector(searchResultViewController:url:)]) {
+        [delegate searchResultViewController:self url:googleImage.unescapedUrl];
     }
-//    iView.image;
-    FullImageViewController *fullImageViewController = [[[FullImageViewController alloc] initWithImageURL:[NSURL URLWithString:googleImage.unescapedUrl]] autorelease];
-    [self.navigationController pushViewController:fullImageViewController animated:YES];
+    
+    if([delegate respondsToSelector:@selector(searchResultViewControllerDidFinished:)]) {
+        [delegate searchResultViewControllerDidFinished:self];
+    }
 }
 
 
@@ -214,6 +214,8 @@
     [super viewDidLoad];
     self.queryStringLabel.text = self.queryString;
     [self fetchSearchResults];
+    
+    [searchBar becomeFirstResponder];
     
     // Set up container view to hold images
     CGSize containerSize = CGSizeMake(800.0f, 1200.0f);
@@ -250,7 +252,41 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self displayImages];
+    [self displayImages:NO];
+}
+
+#pragma mark - UISearchDisplayController Delegate Methods
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    self.queryString = [searchText retain];
+    self.queryStringLabel.text = self.queryString;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)sBar
+{
+    searchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)sBar
+{
+    searchBar.showsCancelButton = NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)sBar
+{
+    [self fetchSearchResults];
+    [searchBar resignFirstResponder];
+    [self displayImages:YES];
+    [self.scrollView setNeedsDisplay];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)sBar
+{
+    [searchBar resignFirstResponder];
+    searchBar.showsCancelButton =NO;
+    if([delegate respondsToSelector:@selector(searchResultViewControllerDidFinished:)]) {
+        [delegate searchResultViewControllerDidFinished:self];
+    }
 }
 
 @end
