@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "ABScrollView.h"
 
-@interface SearchResultsViewController : UIViewController <UIScrollViewDelegate>
+@protocol SearchResultsViewControllerDelegate;
+
+@interface SearchResultsViewController : UIViewController <UIScrollViewDelegate,UISearchBarDelegate>
+{
+    id <SearchResultsViewControllerDelegate> delegate;
+    IBOutlet UISearchBar* searchBar;
+}
+
+@property (nonatomic,assign) id <SearchResultsViewControllerDelegate> delegate;
+
 
 @property (copy, nonatomic) NSString *queryString;
 @property (strong, nonatomic) IBOutlet UILabel *queryStringLabel;
@@ -19,4 +28,11 @@
 
 - (id)initWithQuery:(NSString *)query;
 
+@end
+
+@protocol SearchResultsViewControllerDelegate <NSObject>
+@required
+@optional
+- (void)searchResultViewController:(SearchResultsViewController *)controller url:(NSString*)url;
+- (void)searchResultViewControllerDidFinished:(SearchResultsViewController *)controller;
 @end
